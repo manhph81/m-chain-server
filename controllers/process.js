@@ -10,7 +10,7 @@ export const getProcess = async (req, res) => {
         const postGarden = await PostGarden.find();
         res.status(200).json(postGarden);
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        res.status(200).json({ message: error.message });
     }
 }
 
@@ -25,7 +25,7 @@ export const createProcess = async (req, res) => {
 
         res.status(201).json(newPostGarden );
     } catch (error) {
-        res.status(409).json({ message: error.message });
+        res.status(200).json({ message: error.message });
     }
 }
 
@@ -34,7 +34,7 @@ export const updateProcess = async (req, res) => {
     const post = req.body;
     
     
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(200).json({ message : `No post with id: ${id}`});
 
     const updatedPost = { ...post, _id: id };
     await PostGarden.findByIdAndUpdate(id, updatedPost, { new: true });
@@ -45,11 +45,11 @@ export const updateProcess = async (req, res) => {
 export const deleteProcess = async (req, res) => {
     const { id } = req.params;
 
-        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(200).json({ message : `No post with id: ${id}`});
     
         await PostGarden.findByIdAndRemove(id);
     
-        res.json({ message: "Post deleted successfully." });
+        res.json({ result: "Post deleted successfully." });
 }
 
 

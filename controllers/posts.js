@@ -10,7 +10,7 @@ export const getPosts = async (req, res) => {
         const postGarden = await PostGarden.find();
         res.status(200).json(postGarden);
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        res.status(200).json({ message: error.message });
     }
 }
 
@@ -22,32 +22,32 @@ export const getPost = async (req, res) => {
         
         res.status(200).json(post);
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        res.status(200).json({ message: error.message });
     }
 }
 
 export const createPost = async (req, res) => {
     const post = req.body;
 
-    const newPostGarden = new PostGarden({ ...post, createPost: req.userId, createdAt: new Date().toISOString() })
+    const newPostGarden = new PostGarden({ ...post, gardenCreatedBy: req.userId, gardenCreatedAt: new Date().toISOString() })
 
     try {
         await newPostGarden.save();
 
         res.status(201).json(newPostGarden );
     } catch (error) {
-        res.status(409).json({ message: error.message });
+        res.status(200).json({ message: error.message });
     }
 }
 
 export const updatePost = async (req, res) => {
     const { id } = req.params;
-    const { title, message, owner, selectedFile, tags, likes } = req.body;
+    const post = req.body;
     
     
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(200).json({ message : `No post with id: ${id}`});
 
-    const updatedPost = { owner,likes, title, message, tags, selectedFile, _id: id };
+    const updatedPost = { ...post, _id: id };
     await PostGarden.findByIdAndUpdate(id, updatedPost, { new: true });
 
     res.json(updatedPost);
@@ -56,11 +56,11 @@ export const updatePost = async (req, res) => {
 export const deletePost = async (req, res) => {
     const { id } = req.params;
 
-        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(200).json({ message : `No post with id: ${id}`});
     
         await PostGarden.findByIdAndRemove(id);
     
-        res.json({ message: "Post deleted successfully." });
+        res.json({ result: "Post deleted successfully." });
 }
 
 export const likePost = async (req, res) => {
@@ -68,7 +68,7 @@ export const likePost = async (req, res) => {
 
     if(!req.userId) return res.json({message: "Unauthenticated"})
 
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(200).json({ message : `No post with id: ${id}`});
     
     const post = await PostGarden.findById(id);
 

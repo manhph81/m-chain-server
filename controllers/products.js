@@ -10,7 +10,7 @@ export const getProducts = async (req, res) => {
         const postProduct = await PostProduct.find();
         res.status(200).json(postProduct);
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        res.status(200).json({ message: error.message });
     }
 }
 
@@ -22,7 +22,7 @@ export const getProduct = async (req, res) => {
         
         res.status(200).json(post);
     } catch (error) {
-        res.status(404).json({ message: error.message });
+        res.status(200).json({ message: error.message });
     }
 }
 
@@ -33,9 +33,9 @@ export const createProduct = async (req, res) => {
     try {
         await newPostProduct.save();
 
-        res.status(201).json(newPostProduct );
+        res.status(200).json(newPostProduct );
     } catch (error) {
-        res.status(409).json({ message: error.message });
+        res.status(200).json({ message: error.message });
     }
 }
 
@@ -44,7 +44,7 @@ export const updateProduct = async (req, res) => {
     const product = req.body;
     
     
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(200).json({ message : `No post with id: ${id}`});
 
     const updatedPost = {...product, _id: id };
     await PostProduct.findByIdAndUpdate(id, updatedPost, { new: true });
@@ -55,11 +55,11 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
     const { id } = req.params;
 
-        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+        if (!mongoose.Types.ObjectId.isValid(id)) return res.status(200).json({ message : `No post with id: ${id}`});
     
         await PostProduct.findByIdAndRemove(id);
     
-        res.json({ message: "Post deleted successfully." });
+        res.json({ result: "Post deleted successfully." });
 }
 
 export const likeProduct = async (req, res) => {
@@ -67,7 +67,7 @@ export const likeProduct = async (req, res) => {
 
     if(!req.userId) return res.json({message: "Unauthenticated"})
 
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id: ${id}`);
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(200).json({ message : `No post with id: ${id}`});
     
     const post = await PostProduct.findById(id);
 
