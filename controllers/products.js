@@ -1,9 +1,20 @@
+
 import express from 'express';
 import mongoose from 'mongoose';
+import QRCode from 'qrcode';
 
 import PostProduct from '../models/postProduct.js';
 
 const router = express.Router();
+
+const generateQrCode = async (id) => {
+    try {
+          const url = await QRCode.toDataURL(id);
+          await PostProduct.findByIdAndUpdate(id, {productURL : url}, { new: true });
+    }catch (error) {
+      console.log(error);
+    }
+  }
 
 export const getProducts = async (req, res) => { 
     try {
@@ -32,6 +43,8 @@ export const createProduct = async (req, res) => {
     const newPostProduct = new PostProduct({ ...product, productOwner: req?.userId, productCreatedAt: new Date().toISOString() })
     try {
         await newPostProduct.save();
+        generateQrCode(newPostProduct._id.toString())
+
 
         res.status(200).json(newPostProduct );
     } catch (error) {
@@ -42,7 +55,6 @@ export const createProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
     const { id } = req.params;
     const product = req.body;
-    
     
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(200).json({ message : `No post with id: ${id}`});
 

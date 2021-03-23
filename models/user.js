@@ -9,6 +9,7 @@ const postSchema = mongoose.Schema({
     acPhone: String,
     acEmail:String,
     acSelectedFile:String,
+    acQr: [],
 })
 
 var User = mongoose.model('User', postSchema);
