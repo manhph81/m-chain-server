@@ -5,6 +5,8 @@ import PostGarden from '../models/postGarden.js';
 
 const router = express.Router();
 
+
+
 export const getPosts = async (req, res) => { 
     try {
         const postGarden = await PostGarden.find();

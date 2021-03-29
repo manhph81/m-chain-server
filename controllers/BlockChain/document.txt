@@ -1,1 +1,0 @@
-npm initnpm install crypto-js elliptic debug

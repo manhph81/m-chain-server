@@ -8,6 +8,7 @@ import postRoutes from './routes/posts.js';
 import userRoutes from './routes/user.js';
 import productsRoutes from './routes/products.js';
 import processRoutes from './routes/process.js';
+import transactionRoutes from './routes/transaction.js';
 
 
 
@@ -22,6 +23,7 @@ app.use('/posts', postRoutes);
 app.use('/users', userRoutes);
 app.use('/products', productsRoutes);
 app.use('/process', processRoutes);
+app.use('/transaction', transactionRoutes);
 
 
 const CONNECTION_URL = 'mongodb+srv://admin:admin@cluster0.kn2tv.mongodb.net/blocktest';
