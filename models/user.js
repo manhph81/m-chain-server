@@ -6,9 +6,10 @@ const postSchema = mongoose.Schema({
     password: {type : String, require:true},
     acType: {type : String, require:true},
     acAdress: String,
-    acPhone: String,
-    acEmail:String,
+    acPublicKey: String,
+    acPrivateKey:String,
     acSelectedFile:String,
+    acProduct:[],
     acQr: [],
 })
 

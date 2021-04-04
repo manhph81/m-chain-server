@@ -21,7 +21,7 @@ export const getProducts = async (req, res) => {
         const postProduct = await PostProduct.find();
         res.status(200).json(postProduct);
     } catch (error) {
-        res.status(200).json({ message: error.message });
+        res.status(400).json({ message: error.message });
     }
 }
 
@@ -33,7 +33,7 @@ export const getProduct = async (req, res) => {
         
         res.status(200).json(post);
     } catch (error) {
-        res.status(200).json({ message: error.message });
+        res.status(400).json({ message: error.message });
     }
 }
 
@@ -46,9 +46,9 @@ export const createProduct = async (req, res) => {
         generateQrCode(newPostProduct._id.toString())
 
 
-        res.status(200).json(newPostProduct );
+        res.status(201).json(newPostProduct );
     } catch (error) {
-        res.status(200).json({ message: error.message });
+        res.status(400).json({ message: error.message });
     }
 }
 
@@ -56,7 +56,7 @@ export const updateProduct = async (req, res) => {
     const { id } = req.params;
     const product = req.body;
     
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(200).json({ message : `No post with id: ${id}`});
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(400).json({ message : `No post with id: ${id}`});
 
     const updatedPost = {...product, _id: id };
     await PostProduct.findByIdAndUpdate(id, updatedPost, { new: true });

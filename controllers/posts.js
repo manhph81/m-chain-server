@@ -6,13 +6,12 @@ import PostGarden from '../models/postGarden.js';
 const router = express.Router();
 
 
-
 export const getPosts = async (req, res) => { 
     try {
         const postGarden = await PostGarden.find();
         res.status(200).json(postGarden);
     } catch (error) {
-        res.status(200).json({ message: error.message });
+        res.status(400).json({ message: error.message });
     }
 }
 
@@ -24,7 +23,7 @@ export const getPost = async (req, res) => {
         
         res.status(200).json(post);
     } catch (error) {
-        res.status(200).json({ message: error.message });
+        res.status(400).json({ message: error.message });
     }
 }
 
@@ -38,7 +37,7 @@ export const createPost = async (req, res) => {
 
         res.status(201).json(newPostGarden );
     } catch (error) {
-        res.status(200).json({ message: error.message });
+        res.status(400).json({ message: error.message });
     }
 }
 
