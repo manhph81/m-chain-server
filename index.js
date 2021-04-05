@@ -25,15 +25,20 @@ app.use('/products', productsRoutes);
 app.use('/process', processRoutes);
 app.use('/transaction', transactionRoutes);
 
+app.use('/', function (req, res) {
+  res.send('Hello World!')
+})
+
+
 
 const CONNECTION_URL = 'mongodb+srv://admin:admin@cluster0.kn2tv.mongodb.net/mchain';
 // const CONNECTION_URL = 'mongodb://127.0.0.1:27017/mchain';
 const PORT = process.env.PORT|| 5000;
 
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => app.listen(PORT, () => console.log(`Server Running on Port: http://localhost:${PORT}`)))
+  .then(() => app.listen(PORT, () => 
+  console.log(`Server Running on Port: http://localhost:${PORT}`)
+  ))
   .catch((error) => console.log(`${error} did not connect`));
 
 mongoose.set('useFindAndModify', false);
-
-export default app
