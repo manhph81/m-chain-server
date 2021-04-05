@@ -26,7 +26,7 @@ app.use('/process', processRoutes);
 app.use('/transaction', transactionRoutes);
 
 app.use('/', function (req, res) {
-  res.send('Hello World!')
+  res.send('Hello M-chain Server!')
 })
 
 
