@@ -1,8 +1,9 @@
-
+import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import http from 'http'
 
 import postRoutes from './routes/posts.js';
 import userRoutes from './routes/user.js';
@@ -10,13 +11,13 @@ import productsRoutes from './routes/products.js';
 import processRoutes from './routes/process.js';
 import transactionRoutes from './routes/transaction.js';
 
-
-
 const app = express();
+// var __dirname = path.resolve(path.dirname('/public'));
 
 app.use(bodyParser.json({ limit: '30mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
 app.use(cors());
+
 //
 
 app.use('/posts', postRoutes);
@@ -25,14 +26,16 @@ app.use('/products', productsRoutes);
 app.use('/process', processRoutes);
 app.use('/transaction', transactionRoutes);
 
+
 app.use('/', function (req, res) {
-  res.send('Hello M-chain Server!')
+  res.sendfile(path.join('public/index.html'))
 })
 
 
 
-const CONNECTION_URL = 'mongodb+srv://admin:admin@cluster0.kn2tv.mongodb.net/mchain';
-// const CONNECTION_URL = 'mongodb://127.0.0.1:27017/mchain';
+
+// const CONNECTION_URL = 'mongodb+srv://admin:admin@cluster0.kn2tv.mongodb.net/mchain';
+const CONNECTION_URL = 'mongodb://127.0.0.1:27017/mchain';
 const PORT = process.env.PORT|| 5000;
 
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
