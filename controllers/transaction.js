@@ -34,11 +34,8 @@ export const getTransaction = async (req, res) => {
     try {
         const metadata = await conn.searchMetadata(id)
         const asset = await conn.searchAssets(id)
-
         const result = {product: asset, process: metadata}
         console.log(result)
-        // conn.searchMetadata('1.32')
-        // .then(assets => console.log('Found assets with serial number Bicycle Inc.:', assets))
         res.status(200).json(result);
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -74,7 +71,6 @@ export const createTransaction = async (req, res) => {
 export const createTransactionB2B = async (req, res) => {
     const asset = req.body.product
     const newOwner = req.body.user
-    console.log("B2B")
     var preOwner =  await User.findById(asset.productOwnerId);
     var metadata =  await Process.findById(asset._id);
     try {
@@ -93,7 +89,7 @@ export const createTransactionB2B = async (req, res) => {
         const txCreateAliceSimpleSigned = driver.Transaction.signTransaction(txCreateAliceSimple, preOwner.acPrivateKey)
 
         // Send the transaction off to BigchainDB
-        conn.postTransactionCommit(txCreateAliceSimpleSigned)
+        await conn.postTransactionCommit(txCreateAliceSimpleSigned)
             .then(retrievedTx => console.log('Transaction', retrievedTx.id, 'successfully posted.'))
             // With the postTransactionCommit if the response is correct, then the transaction
             // is valid and commited to a block
