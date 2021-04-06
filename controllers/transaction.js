@@ -8,11 +8,7 @@ const router = express.Router();
 const API_PATH = 'https://test.ipdb.io/api/v1/'
 // const API_PATH = 'mongodb://127.0.0.1:27017'
 
-// const conn = new driver.Connection(API_PATH, {
-//     app_id: 'manhph',
-//     app_key: '43K14'
-// })
-const conn = new driver.Connection('https://test.ipdb.io/api/v1/', {
+const conn = new driver.Connection(API_PATH, {
     header1: 'header1_value',
     header2: 'header2_value'
 })
@@ -118,19 +114,5 @@ export const createTransactionB2B = async (req, res) => {
     }
    
 }
-
-// function signTransaction() {
-//     // get privateKey from somewhere
-//     const privateKeyBuffer = Buffer.from(base58.decode(alice.privateKey))
-//     return function sign(serializedTransaction, input, index) {
-//         const transactionUniqueFulfillment = input.fulfills ? serializedTransaction
-//                 .concat(input.fulfills.transaction_id)
-//                 .concat(input.fulfills.output_index) : serializedTransaction
-//         const transactionHash = crypto.createHash('sha3-256').update(transactionUniqueFulfillment).digest()
-//         const ed25519Fulfillment = new Ed25519Sha256();
-//         ed25519Fulfillment.sign(transactionHash, privateKeyBuffer);
-//         return ed25519Fulfillment.serializeUri();
-//     };
-// }
 
 export default router;

@@ -2,6 +2,7 @@ import express from 'express';
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import driver from 'bigchaindb-driver'
+import mongoose from 'mongoose';
 
 import User from '../models/user.js';
 
@@ -48,8 +49,7 @@ export const signup = async (req, res) => {
 export const updateUser = async (req, res) => {
     const { id } = req.params;
     const info = req.body;
-    
-    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(200).json({ message : `No post with id: ${id}`});
+    if (!mongoose.Types.ObjectId.isValid(id)) return res.status(202).json({ message : `No user with id: ${id}`});
 
     const updateUser = {...info, _id: id };
     await User.findByIdAndUpdate(id, updateUser, { new: true });
