@@ -28,9 +28,13 @@ app.use('/transaction', transactionRoutes);
 
 
 app.use('/', function (req, res) {
+<<<<<<< HEAD
   // res.sendfile(path.join('public/index.html'))
   res.render("Mchain server")
 
+=======
+  res.send('Hello World!')
+>>>>>>> parent of 729cca1 (change content index)
 })
 
 
