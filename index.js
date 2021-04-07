@@ -34,8 +34,8 @@ app.use('/', function (req, res) {
 
 
 
-// const CONNECTION_URL = 'mongodb+srv://admin:admin@cluster0.kn2tv.mongodb.net/mchain';
-const CONNECTION_URL = 'mongodb://127.0.0.1:27017/mchain';
+const CONNECTION_URL = 'mongodb+srv://admin:admin@cluster0.kn2tv.mongodb.net/mchain';
+// const CONNECTION_URL = 'mongodb://127.0.0.1:27017/mchain';
 const PORT = process.env.PORT|| 5000;
 
 mongoose.connect(CONNECTION_URL, { useNewUrlParser: true, useUnifiedTopology: true })
