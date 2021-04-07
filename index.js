@@ -3,7 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import http from 'http'
+
 
 import postRoutes from './routes/posts.js';
 import userRoutes from './routes/user.js';
@@ -12,12 +12,13 @@ import processRoutes from './routes/process.js';
 import transactionRoutes from './routes/transaction.js';
 
 const app = express();
-// var __dirname = path.resolve(path.dirname('/public'));
+var __dirname = path.resolve(path.dirname(''));
 
 app.use(bodyParser.json({ limit: '30mb', extended: true }))
 app.use(bodyParser.urlencoded({ limit: '30mb', extended: true }))
 app.use(cors());
-
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 //
 
 app.use('/posts', postRoutes);
@@ -28,14 +29,9 @@ app.use('/transaction', transactionRoutes);
 
 
 app.use('/', function (req, res) {
-<<<<<<< HEAD
-  // res.sendfile(path.join('public/index.html'))
-  res.render("Mchain server")
-
-=======
-  res.send('Hello World!')
->>>>>>> parent of 729cca1 (change content index)
+  res.render('index');
 })
+
 
 
 
