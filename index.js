@@ -28,7 +28,9 @@ app.use('/transaction', transactionRoutes);
 
 
 app.use('/', function (req, res) {
-  res.sendfile(path.join('public/index.html'))
+  // res.sendfile(path.join('public/index.html'))
+  res.render("Mchain server")
+
 })
 
 
