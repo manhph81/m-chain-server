@@ -30,9 +30,13 @@ export const getTransaction = async (req, res) => {
     try {
         const metadata = await conn.searchMetadata(id)
         const asset = await conn.searchAssets(id)
-        const result = {product: asset, process: metadata}
-        console.log(result)
-        res.status(200).json(result);
+        if(metadata.length !== 0 && asset .length !== 0){
+            const result = {product: asset, process: metadata}
+            res.status(200).json(result);
+        }else{
+            res.status(202).json({ message: "Can't find product" })
+        }
+       
     } catch (error) {
         res.status(400).json({ message: error.message });
     }

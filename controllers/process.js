@@ -13,6 +13,7 @@ export const getProcess = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 }
+
 export const getPro = async (req, res) => { 
     const { id } = req.params;
     try {
@@ -22,7 +23,6 @@ export const getPro = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 }
-
 
 export const createProcess = async (req, res) => {
     const pro = req.body;
@@ -73,6 +73,5 @@ export const deleteProcess = async (req, res) => {
     
         res.json({ result: "Post deleted successfully." });
 }
-
 
 export default router;

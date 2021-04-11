@@ -1,4 +1,3 @@
-
 import express from 'express';
 import mongoose from 'mongoose';
 import QRCode from 'qrcode';
@@ -44,8 +43,6 @@ export const createProduct = async (req, res) => {
     try {
         await newPostProduct.save();
         generateQrCode(newPostProduct._id.toString())
-
-
         res.status(201).json(newPostProduct );
     } catch (error) {
         res.status(400).json({ message: error.message });
