@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const postSchema = mongoose.Schema({
-    // productId: String,
+    // _id = product._id
     Manufacturer:[
         {   
             processName:String,

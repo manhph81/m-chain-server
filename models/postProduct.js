@@ -11,12 +11,11 @@ const postSchema = mongoose.Schema({
     productUsing: String,
     productComposition: [],
     productPreservation: String,
-    productSelectedFile: String,
     productCreatedAt: {
         type: Date,
         default: new Date(),
     },
-    productURL: String,
+    productSelectedFile: String,
 })
 
 var PostProduct = mongoose.model('products', postSchema);

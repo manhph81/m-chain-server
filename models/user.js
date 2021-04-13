@@ -10,8 +10,6 @@ const postSchema = mongoose.Schema({
     acPublicKey: String,
     acPrivateKey:String,
     acSelectedFile:String,
-    acProduct:[],
-    acQr: [],
 })
 
 var User = mongoose.model('User', postSchema);

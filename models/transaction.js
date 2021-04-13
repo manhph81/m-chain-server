@@ -14,19 +14,3 @@ const postSchema = mongoose.Schema({
 var Process = mongoose.model('transaction', postSchema);
 
 export default Process;
-
-// import driver from 'bigchaindb-driver'
-// const conn = new driver.Connection('https://test.ipdb.io/api/v1/', {
-//     header1: 'header1_value',
-//     header2: 'header2_value'
-// })
-// const tx = driver.Transaction.makeCreateTransaction(
-//     id,
-//     version,
-//     inputs,
-//     outputs,
-//     conditions,
-//     operation,
-//     asset,
-//     metadata,
-// )
