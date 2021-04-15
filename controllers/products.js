@@ -38,11 +38,10 @@ export const getProduct = async (req, res) => {
 
 export const createProduct = async (req, res) => {
     const product = req.body;
-
-    const newPostProduct = new PostProduct({ ...product, productOwner: req?.userId, productCreatedAt: new Date().toISOString() })
+    const newPostProduct = new PostProduct({ ...product , productOwner: req?.userId, productCreatedAt: new Date().toISOString() })
     try {
         await newPostProduct.save();
-        generateQrCode(newPostProduct._id.toString())
+        await generateQrCode(newPostProduct._id.toString())
         res.status(201).json(newPostProduct );
     } catch (error) {
         res.status(400).json({ message: error.message });

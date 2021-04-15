@@ -36,10 +36,11 @@ export const signup = async (req, res) => {
         if(password!==confirmPassword) return res.status(202).json({message: "Password don't match"})
         if(acType!== "Supplier" && acType!== "Manufacturer" && acType!== "Distributor" && acType!== "Retailer" && acType!== "Consumer" ) return res.status(202).json({message:"Invalid Type"})
         const hashedPassword = await bcrypt.hash(password, 12)
-        const alice = new driver.Ed25519Keypair()
-        const result = await User.create({email:result.email , password: hashedPassword,acType,acPublicKey: alice.publicKey, acPrivateKey: alice.privateKey, acName:`${firstName} ${lastName}`})
-        const token = jwt.sign({email:result.email, id:result._id}, 'test', {expiresIn:"1h"})
 
+        const alice = new driver.Ed25519Keypair()
+
+        const result = await User.create({email:email , password: hashedPassword,acType,acPublicKey: alice.publicKey, acPrivateKey: alice.privateKey, acName:`${firstName} ${lastName}`})
+        const token = jwt.sign({email:result.email, id:result._id}, 'test', {expiresIn:"1h"})
         res.status(200).json({result, token})
     } catch (error) {
         res.status(400).json({ message: "Something went wrong." });
