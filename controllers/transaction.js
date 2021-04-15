@@ -121,7 +121,7 @@ export const createTransactionB2B = async (req, res) => {
                     .then(retrievedTx => {
                         //change product to newOwner
                         const updatedProduct = {...product,  productOwnerId : newOwner._id, productOwner : newOwner.acName,  productPlace : newOwner.acType };
-                        await PostProduct.findByIdAndUpdate(asset?._id, updatedPost, { new: true });
+                        await PostProduct.findByIdAndUpdate(asset?._id, updatedProduct, { new: true });
                         //
                         console.log('Transaction', retrievedTx.id, 'successfully posted.')
                     })
