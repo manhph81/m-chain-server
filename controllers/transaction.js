@@ -2,6 +2,7 @@ import express from 'express';
 import driver from 'bigchaindb-driver'
 import User from '../models/user.js';
 import Process from '../models/process.js';
+import PostProduct from '../models/postProduct.js';
 
 const router = express.Router();
 
@@ -118,8 +119,11 @@ export const createTransactionB2B = async (req, res) => {
                 // Post with commit so transaction is validated and included in a block
                 return conn.postTransactionCommit(txTransferBobSigned)
                     .then(retrievedTx => {
+                        //change product to newOwner
+                        const updatedProduct = {...product,  productOwnerId : newOwner._id, productOwner : newOwner.acName,  productPlace : newOwner.acType };
+                        await PostProduct.findByIdAndUpdate(asset?._id, updatedPost, { new: true });
+                        //
                         console.log('Transaction', retrievedTx.id, 'successfully posted.')
-                        // res.status(202).json({ message:`Buy ${retrievedTx.id} successfully`})
                     })
                     .catch(() => {
                         res.status(202).json({ message:'Buy product fail!!!'})
