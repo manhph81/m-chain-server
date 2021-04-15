@@ -63,7 +63,7 @@ export const createTransaction = async (req, res) => {
         conn.postTransactionCommit(txSigned)
         .then(retrievedTx => {
             console.log('Transaction', retrievedTx.id, 'successfully posted.')
-            res.status(202).json({ message:`Buy ${retrievedTx.id} successfully`})
+            res.status(202).json({ message:`Buy product successfully`})
         })
         .catch(() => {
             res.status(202).json({ message:'Buy product fail.'})
@@ -100,7 +100,6 @@ export const createTransactionB2B = async (req, res) => {
         await conn.postTransactionCommit(txCreateAliceSimpleSigned)
             .then(retrievedTx => {
                 console.log('Transaction', retrievedTx.id, 'successfully posted.')
-                res.status(202).json({ message:`Buy ${retrievedTx.id} successfully `})
             })
             // With the postTransactionCommit if the response is correct, then the transaction
             // is valid and commited to a block
@@ -124,6 +123,7 @@ export const createTransactionB2B = async (req, res) => {
                         const updatedProduct = {...product,  productOwnerId : newOwner._id, productOwner : newOwner.acName,  productPlace : newOwner.acType };
                         PostProduct.findByIdAndUpdate(asset?._id, updatedProduct, { new: true });
                         //
+                        res.status(202).json({ message:`Buy product successfully `})
                         console.log('Transaction', retrievedTx.id, 'successfully posted.')
                     })
                     .catch(() => {
@@ -135,7 +135,6 @@ export const createTransactionB2B = async (req, res) => {
                 res.status(202).json({ message:'Buy product fail.'})
                 console.log('TransactionAlice fail posted.')
             })
-        res.status(200)
 
     } catch (error) {
         res.status(400).json({ message: error.message });
