@@ -13,6 +13,7 @@ const conn = new driver.Connection(API_PATH, {
     header1: 'header1_value',
     header2: 'header2_value'
 })
+// const conn = new driver.Connection('https://test.ipdb.io/api/v1/')
 
 export const getTransactions = async (req, res) => { 
 
@@ -121,7 +122,7 @@ export const createTransactionB2B = async (req, res) => {
                     .then(retrievedTx => {
                         //change product to newOwner
                         const updatedProduct = {...product,  productOwnerId : newOwner._id, productOwner : newOwner.acName,  productPlace : newOwner.acType };
-                        await PostProduct.findByIdAndUpdate(asset?._id, updatedProduct, { new: true });
+                        PostProduct.findByIdAndUpdate(asset?._id, updatedProduct, { new: true });
                         //
                         console.log('Transaction', retrievedTx.id, 'successfully posted.')
                     })
