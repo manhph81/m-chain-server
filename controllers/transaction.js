@@ -59,8 +59,14 @@ export const createTransaction = async (req, res) => {
         const txSigned = driver.Transaction.signTransaction(tx, newOwner.acPrivateKey)
          // ======== POST CREATE Transaction ======== //
         conn.postTransactionCommit(txSigned)
-        .then(retrievedTx => console.log('Transaction', retrievedTx.id, 'successfully posted.'))
-        res.status(200).json(txSigned);
+        .then(retrievedTx => {
+            console.log('Transaction', retrievedTx.id, 'successfully posted.')
+            res.status(202).json({ message:`Buy ${retrievedTx.id} successfully`})
+        })
+        .catch(() => {
+            res.status(202).json({ message:'Buy product fail.'})
+            console.log('TransactionAlice fail posted.')
+        })
         
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -72,7 +78,7 @@ export const createTransactionB2B = async (req, res) => {
     const asset = req.body.product
     const newOwner = req.body.user
     var preOwner =  await User.findById(asset.productOwnerId);
-    var metadata =  await Process.findById(asset._id);
+    var metadata =  await Process.findById(asset?._id);
     try {
         const txCreateAliceSimple = driver.Transaction.makeCreateTransaction(
             // asset.
@@ -84,13 +90,16 @@ export const createTransactionB2B = async (req, res) => {
             ],
             preOwner.acPublicKey
         )
-        
+
         // Sign the transaction with private keys of Alice to fulfill it
         const txCreateAliceSimpleSigned = driver.Transaction.signTransaction(txCreateAliceSimple, preOwner.acPrivateKey)
 
         // Send the transaction off to BigchainDB
         await conn.postTransactionCommit(txCreateAliceSimpleSigned)
-            .then(retrievedTx => console.log('Transaction', retrievedTx.id, 'successfully posted.'))
+            .then(retrievedTx => {
+                console.log('Transaction', retrievedTx.id, 'successfully posted.')
+                res.status(202).json({ message:`Buy ${retrievedTx.id} successfully `})
+            })
             // With the postTransactionCommit if the response is correct, then the transaction
             // is valid and commited to a block
             // Transfer bicycle to Bob
@@ -105,18 +114,27 @@ export const createTransactionB2B = async (req, res) => {
         
                 // Sign with alice's private key
                 let txTransferBobSigned = driver.Transaction.signTransaction(txTransferBob, preOwner.acPrivateKey)
-                console.log('Posting signed transaction: ', txTransferBobSigned)
         
                 // Post with commit so transaction is validated and included in a block
                 return conn.postTransactionCommit(txTransferBobSigned)
-                    .then(retrievedTx => console.log('Transaction', retrievedTx.id, 'successfully posted.'))
-        })
-        res.status(200).json(txSigned);
-        
+                    .then(retrievedTx => {
+                        console.log('Transaction', retrievedTx.id, 'successfully posted.')
+                        // res.status(202).json({ message:`Buy ${retrievedTx.id} successfully`})
+                    })
+                    .catch(() => {
+                        res.status(202).json({ message:'Buy product fail!!!'})
+                        console.log('TransactionBob fail posted.')
+                    })
+            })
+            .catch(() => {
+                res.status(202).json({ message:'Buy product fail.'})
+                console.log('TransactionAlice fail posted.')
+            })
+        res.status(200)
+
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
-   
 }
 
 export default router;
