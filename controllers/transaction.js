@@ -80,21 +80,25 @@ export const createTransactionB2B = async (req, res) => {
     const asset = req.body.product
     const newOwner = req.body.user
     var preOwner =  await User.findById(asset.productOwnerId);
-    var metadata =  await Process.findById(asset?._id);
+    var process =  await Process.findById(asset?._id);
+    var metadata = createMetadata(process)
+
     try {
         const txCreateAliceSimple = driver.Transaction.makeCreateTransaction(
             // asset.
-            asset,
+            asset._id,
             metadata,
             // A transaction needs an output
             [ driver.Transaction.makeOutput(
                             driver.Transaction.makeEd25519Condition(preOwner.acPublicKey))
             ],
+            // A transaction needs an inputs
             preOwner.acPublicKey
         )
-
+        console.log(txCreateAliceSimpleSigned.outputs)
         // Sign the transaction with private keys of Alice to fulfill it
         const txCreateAliceSimpleSigned = driver.Transaction.signTransaction(txCreateAliceSimple, preOwner.acPrivateKey)
+       
 
         // Send the transaction off to BigchainDB
         await conn.postTransactionCommit(txCreateAliceSimpleSigned)
@@ -103,7 +107,7 @@ export const createTransactionB2B = async (req, res) => {
             })
             // With the postTransactionCommit if the response is correct, then the transaction
             // is valid and commited to a block
-            // Transfer bicycle to Bob
+            // Transfer product to Bob
             .then(() => {
                 const txTransferBob = driver.Transaction.makeTransferTransaction(
                         // signedTx to transfer and output index
@@ -139,6 +143,30 @@ export const createTransactionB2B = async (req, res) => {
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
+}
+
+const createMetadata = (process)=>{
+    var result = {
+        Manufacturer:[],
+        Distributor:[],
+        Retailer:[]
+    }
+    if(process.Manufacturer.length>0){
+        process.Manufacturer.forEach(element => {
+            result.Manufacturer.push({ processName: element.processName, processDetail:element.processDetail, processCreateAt: element.processCreatedAt})
+        });
+    }
+    if(process.Distributor.length>0){
+        process.Distributor.forEach(element => {
+            result.Distributor.push({ processName: element.processName, processDetail:element.processDetail, processCreateAt: element.processCreatedAt})
+        });
+    }
+    if(process.Retailer.length>0){
+        process.Retailer.forEach(element => {
+            result.Retailer.push({ processName: element.processName, processDetail:element.processDetail, processCreateAt: element.processCreatedAt})
+        });
+    }
+    return result
 }
 
 export default router;
