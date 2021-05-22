@@ -9,6 +9,7 @@ const postSchema = mongoose.Schema({
             processType: String,
             processOwner: String,
             processOwnerId: String,
+            processPlace: String,
             processSelectedFile:String,
             processCreatedAt: {
                 type: Date,
@@ -23,6 +24,7 @@ const postSchema = mongoose.Schema({
             processType: String,
             processOwner: String,
             processOwnerId: String,
+            processPlace: String,
             processSelectedFile:String,
             processCreatedAt: {
                 type: Date,
@@ -37,6 +39,7 @@ const postSchema = mongoose.Schema({
             processType: String,
             processOwner: String,
             processOwnerId: String,
+            processPlace: String,
             processSelectedFile:String,
             processCreatedAt: {
                 type: Date,

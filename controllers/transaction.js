@@ -202,18 +202,18 @@ const createMetadata = (process,productGarden)=>{
     
     if(process?.Manufacturer.length>0){
         process.Manufacturer.forEach(element => {
-            result.Manufacturer.push({ processOwnerId:element.processOwnerId ,processName: element.processName, processDetail:element.processDetail, processCreateAt: element.processCreatedAt})
+            result.Manufacturer.push({ processOwnerId:element.processOwnerId ,processName: element.processName, processDetail:element.processDetail, processCreateAt: element.processCreatedAt, processPlace: element.processPlace})
             
         });
     }
     if(process?.Distributor.length>0){
         process.Distributor.forEach(element => {
-            result.Distributor.push({ processOwnerId:element.processOwnerId ,processName: element.processName, processDetail:element.processDetail, processCreateAt: element.processCreatedAt})
+            result.Distributor.push({ processOwnerId:element.processOwnerId ,processName: element.processName, processDetail:element.processDetail, processCreateAt: element.processCreatedAt, processPlace: element.processPlace})
         })
     }
     if(process?.Retailer.length>0){
         process.Retailer.forEach(element => {
-            result.Retailer.push({ processOwnerId:element.processOwnerId ,processName: element.processName, processDetail:element.processDetail, processCreateAt: element.processCreatedAt})
+            result.Retailer.push({ processOwnerId:element.processOwnerId ,processName: element.processName, processDetail:element.processDetail, processCreateAt: element.processCreatedAt, processPlace: element.processPlace})
         })
     }
     return result
