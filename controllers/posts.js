@@ -17,10 +17,8 @@ export const getPosts = async (req, res) => {
 
 export const getPost = async (req, res) => { 
     const { id } = req.params;
-
     try {
-        const post = await PostGarden.findById(id);
-        
+        const post = await PostGarden.findOne({gardenName: id});
         res.status(200).json(post);
     } catch (error) {
         res.status(400).json({ message: error.message });
