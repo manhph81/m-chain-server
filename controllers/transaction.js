@@ -22,7 +22,8 @@ const conn = new driver.Connection(API_PATH, {
 export const getTransactions = async (req, res) => { 
 
     try {
-        const assets = await conn.searchAssets('Coffee')
+        const assets = await PostTransaction.find({});
+        // const assets = await conn.searchAssets('Coffee')
         // conn.searchMetadata('1.32')
         // .then(assets => console.log('Found assets with serial number Bicycle Inc.:', assets))
         res.status(200).json(assets);
