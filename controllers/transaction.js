@@ -36,17 +36,23 @@ export const getTransaction = async (req, res) => {
     const { id } = req.params;
     try {
         const transaction = await PostTransaction.find({asset : {data : id}});
-        const metadata = transaction[transaction.length - 1]?.metadata
-        const asset = transaction[transaction.length - 1]?.asset
-         // const transaction = await PostTransaction.findById(id);
-        // const metadata = await conn.searchMetadata(id)
-        // const asset = await conn.searchAssets(id)
-        if(metadata.length !== 0 && asset .length !== 0){
-            const result = {product: asset, process: metadata}
-            res.status(200).json(result);
-        }else{
+
+        if(transaction?.length) {
+            const metadata = transaction[transaction.length - 1]?.metadata
+            const asset = transaction[transaction.length - 1]?.asset
+             // const transaction = await PostTransaction.findById(id);
+            // const metadata = await conn.searchMetadata(id)
+            // const asset = await conn.searchAssets(id)
+            if(metadata.length !== 0 && asset .length !== 0){
+                const result = {product: asset, process: metadata}
+                res.status(200).json(result);
+            }else{
+                res.status(202).json({ message: "Can't get product" })
+            }
+        }else {
             res.status(202).json({ message: "Can't find product" })
         }
+        
        
     } catch (error) {
         res.status(400).json({ message: error.message });
@@ -72,7 +78,6 @@ export const createTransaction = async (req, res) => {
 
         const txSigned = driver.Transaction.signTransaction(tx, newOwner.acPrivateKey)
          // ======== POST CREATE Transaction ======== //
-        console.log(txSigned)
 
         const newPostTransaction = new PostTransaction(txSigned)
         try {
@@ -125,7 +130,6 @@ export const createTransactionB2B = async (req, res) => {
         const txSigned = driver.Transaction.signTransaction(tx, preOwner.acPrivateKey)
         const newPostTransaction = new PostTransaction(txSigned)
 
-        console.log(newPostTransaction)
         // const txTransferBob = driver.Transaction.makeTransferTransaction(
         //     // signedTx to transfer and output index
         //     [{ tx: txSigned, output_index: 0 }],
@@ -196,18 +200,18 @@ const createMetadata = (process,productGarden)=>{
         Retailer:[]
     }
     
-    if(process.Manufacturer.length>0){
+    if(process?.Manufacturer.length>0){
         process.Manufacturer.forEach(element => {
             result.Manufacturer.push({ processOwnerId:element.processOwnerId ,processName: element.processName, processDetail:element.processDetail, processCreateAt: element.processCreatedAt})
             
         });
     }
-    if(process.Distributor.length>0){
+    if(process?.Distributor.length>0){
         process.Distributor.forEach(element => {
             result.Distributor.push({ processOwnerId:element.processOwnerId ,processName: element.processName, processDetail:element.processDetail, processCreateAt: element.processCreatedAt})
         })
     }
-    if(process.Retailer.length>0){
+    if(process?.Retailer.length>0){
         process.Retailer.forEach(element => {
             result.Retailer.push({ processOwnerId:element.processOwnerId ,processName: element.processName, processDetail:element.processDetail, processCreateAt: element.processCreatedAt})
         })
