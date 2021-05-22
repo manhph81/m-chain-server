@@ -8,6 +8,7 @@ const postSchema = mongoose.Schema({
             processDetail: String,
             processType: String,
             processOwner: String,
+            processOwnerId: String,
             processSelectedFile:String,
             processCreatedAt: {
                 type: Date,
@@ -21,6 +22,7 @@ const postSchema = mongoose.Schema({
             processDetail: String,
             processType: String,
             processOwner: String,
+            processOwnerId: String,
             processSelectedFile:String,
             processCreatedAt: {
                 type: Date,
