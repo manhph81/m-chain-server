@@ -8,7 +8,6 @@ const router = express.Router();
 router.get('/', getTransactions);
 router.get('/:id', getTransaction);
 router.post('/',auth, createTransaction);
-// router.post('/B2B',auth, createTransaction);
 router.post('/B2B',auth, createTransactionB2B);
 
 
